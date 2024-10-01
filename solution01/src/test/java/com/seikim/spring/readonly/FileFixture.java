@@ -1,4 +1,4 @@
-package com.seikim.spring;
+package com.seikim.spring.readonly;
 
 import java.io.IOException;
 

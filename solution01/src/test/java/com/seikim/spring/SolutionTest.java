@@ -10,6 +10,8 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.seikim.spring.readonly.FileFixture;
+
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -20,10 +22,10 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
  */
 @Slf4j
 @SpringBootTest
-class AwsS3ClientTest {
+class SolutionTest {
 	private final S3Client s3Client;
 
-	public AwsS3ClientTest(@Autowired S3Client s3Client) {
+	public SolutionTest(@Autowired S3Client s3Client) {
 		this.s3Client = s3Client;
 	}
 

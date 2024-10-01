@@ -1,4 +1,4 @@
-package com.seikim.spring;
+package com.seikim.spring.readonly;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

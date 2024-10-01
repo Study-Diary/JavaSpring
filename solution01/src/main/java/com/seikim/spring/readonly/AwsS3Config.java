@@ -1,4 +1,4 @@
-package com.seikim.spring;
+package com.seikim.spring.readonly;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
