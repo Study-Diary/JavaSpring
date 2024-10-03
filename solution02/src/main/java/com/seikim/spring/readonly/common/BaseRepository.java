@@ -2,18 +2,30 @@ package com.seikim.spring.readonly.common;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicInteger;
+
+import com.seikim.spring.readonly.common.id.IdentifierGenerate;
+import com.seikim.spring.readonly.common.strategy.GenerateIdentifierStrategy;
 
 import lombok.SneakyThrows;
 
-public abstract class BaseRepository<T extends Entity, I> {
+public abstract class BaseRepository<V extends Entity<?>, T> {
 
-	private final AtomicInteger entityId = new AtomicInteger(1);
-	protected final ConcurrentHashMap<I, T> entityMap = new ConcurrentHashMap<>();
+	protected final ConcurrentHashMap<T, V> entityMap = new ConcurrentHashMap<>();
+	private final IdentifierGenerate<T> identifierGenerate;
+
+	private final Map<Class<?>, GenerateIdentifierStrategy<?>> generateIdentifierStrategies;
+
+	public BaseRepository(
+			Map<Class<?>, GenerateIdentifierStrategy<?>> generateIdentifierStrategies,
+			IdentifierGenerate<T> identifierType
+	) {
+		this.generateIdentifierStrategies = generateIdentifierStrategies;
+		this.identifierGenerate = identifierType;
+	}
 
 	/**
 	 * 실행시간: 0.5 ~ 2초
@@ -21,16 +33,16 @@ public abstract class BaseRepository<T extends Entity, I> {
 	 * @param entity 저장 및 수정하는 엔티티
 	 * @return 데이터베이스에 저장된 최신 엔티티
 	 */
+	@SuppressWarnings("unchecked")
 	@SneakyThrows
-	public T save(final T entity) {
+	public V save(V entity) {
 		Thread.sleep((ThreadLocalRandom.current().nextInt(4) + 1) * 500L);    // 0.5 ~ 2초
-		if (entity instanceof IntegerEntity e) {
-			e.init(entityId.getAndIncrement());
+		GenerateIdentifierStrategy<T> strategy
+				= (GenerateIdentifierStrategy<T>)generateIdentifierStrategies.get(entity.getIdentifierClassType());
+		if (entity.getId() == null) {
+			entity = (V)strategy.generate(identifierGenerate.generate(), entity);
 		}
-		if (entity instanceof UUIDEntity e) {
-			e.init((UUID)entity.getId());
-		}
-		entityMap.put((I)entity.getId(), entity);
+		entityMap.put((T)entity.getId(), entity);
 		return entity;
 	}
 
@@ -41,7 +53,7 @@ public abstract class BaseRepository<T extends Entity, I> {
 	 * @return 데이터베이스에서 조회한 엔티티
 	 */
 	@SneakyThrows
-	public Optional<T> findById(final I id) {
+	public Optional<V> findById(final T id) {
 		Thread.sleep((ThreadLocalRandom.current().nextInt(3) + 1) * 250L);    // 0.25 ~ 0.75초
 		return Optional.ofNullable(entityMap.get(id));
 	}
@@ -53,8 +65,8 @@ public abstract class BaseRepository<T extends Entity, I> {
 	 * @return 데이터 삭제 유무
 	 */
 	@SneakyThrows
-	public boolean deleteById(final I id) {
-		Optional<T> findOptionalEntity = findById(id);
+	public boolean deleteById(final T id) {
+		Optional<V> findOptionalEntity = findById(id);
 		if (findOptionalEntity.isEmpty()) {
 			return false;
 		}
@@ -70,7 +82,7 @@ public abstract class BaseRepository<T extends Entity, I> {
 	 * @return 데이터 존재 유무
 	 */
 	@SneakyThrows
-	public boolean existsById(final I id) {
+	public boolean existsById(final T id) {
 		return findById(id).isPresent();
 	}
 
@@ -80,7 +92,7 @@ public abstract class BaseRepository<T extends Entity, I> {
 	 * @return 데이터베이스에 저장된 모든 데이터
 	 */
 	@SneakyThrows
-	public List<T> findAll() {
+	public List<V> findAll() {
 		Thread.sleep((ThreadLocalRandom.current().nextInt(3) + 1) * 250L);    // 0.25 ~ 0.75초
 		return new ArrayList<>(entityMap.values());
 	}

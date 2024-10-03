@@ -1,7 +1,9 @@
 package com.seikim.spring.readonly.common;
 
-public interface Entity<I> {
-	I getId();
+public interface Entity<T> {
+	Class<T> getIdentifierClassType();
 
-	void init(I id);
+	T getId();
+
+	void init(T id);
 }

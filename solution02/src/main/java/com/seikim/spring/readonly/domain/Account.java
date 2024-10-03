@@ -14,7 +14,6 @@ public class Account extends IntegerEntity {
 	private long amount;
 
 	public Account(int id, long amount) {
-		super();
 		init(id);
 		this.amount = amount;
 	}

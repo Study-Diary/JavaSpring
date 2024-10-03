@@ -13,6 +13,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
@@ -29,6 +31,7 @@ import com.seikim.spring.readonly.service.MemberService;
 
 class SolutionTest extends MockControllerTest {
 
+	private static final Logger log = LoggerFactory.getLogger(SolutionTest.class);
 	@Autowired
 	private MemberService memberService;
 
@@ -67,7 +70,10 @@ class SolutionTest extends MockControllerTest {
 				() -> assertThat(response.accountAmount()).isEqualTo(fixture.getAmount())
 		);
 
-		assertThat(logRepository.findAll()).isNotEmpty(); /* 해당 테스트가 성공해야 합니다. */
+		List<Log> findLogs = logRepository.findAll();
+		log.info(findLogs.toString());
+
+		assertThat(findLogs).isNotEmpty(); /* 해당 테스트가 성공해야 합니다. */
 	}
 
 	@DisplayName("사용자의 회원가입은 1초 미만으로 나올 수 없다.")
