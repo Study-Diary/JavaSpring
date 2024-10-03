@@ -14,7 +14,18 @@ public class Account extends IntegerEntity {
 	private long amount;
 
 	public Account(int id, long amount) {
-		init(id);
+		initIdentifier(id);
 		this.amount = amount;
+	}
+
+	public void deposit(long amount) {
+		this.amount += amount;
+	}
+
+	public void withdraw(long amount) {
+		if (this.amount < amount) {
+			throw new IllegalArgumentException("계좌 잔액이 부족합니다.");
+		}
+		this.amount -= amount;
 	}
 }

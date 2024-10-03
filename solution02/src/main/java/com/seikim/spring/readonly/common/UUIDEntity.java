@@ -20,7 +20,7 @@ public abstract class UUIDEntity implements Entity<UUID> {
 	}
 
 	@Override
-	public void init(final UUID id) {
+	public void initIdentifier(final UUID id) {
 		if (this.id == null) {
 			this.id = (id != null) ? id : UUID.randomUUID();
 		}

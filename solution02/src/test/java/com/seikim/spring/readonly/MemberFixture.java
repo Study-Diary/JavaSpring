@@ -21,7 +21,7 @@ public enum MemberFixture {
 
 	public Member toMember() {
 		Member member = new Member(age, name);
-		member.init(id);
+		member.initIdentifier(id);
 		return member;
 	}
 

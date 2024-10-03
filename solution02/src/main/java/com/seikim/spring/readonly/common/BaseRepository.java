@@ -28,7 +28,8 @@ public abstract class BaseRepository<V extends Entity<?>, T> {
 	}
 
 	/**
-	 * 실행시간: 0.5 ~ 2초
+	 * SAVE 실행시간: 1 ~ 2초
+	 * UPDATE 실행시간: 0.5 ~ 1초
 	 *
 	 * @param entity 저장 및 수정하는 엔티티
 	 * @return 데이터베이스에 저장된 최신 엔티티
@@ -36,11 +37,12 @@ public abstract class BaseRepository<V extends Entity<?>, T> {
 	@SuppressWarnings("unchecked")
 	@SneakyThrows
 	public V save(V entity) {
-		Thread.sleep((ThreadLocalRandom.current().nextInt(4) + 1) * 500L);    // 0.5 ~ 2초
+		Thread.sleep((ThreadLocalRandom.current().nextInt(2) + 1) * 500L);    // 0.5 ~ 1초
 		GenerateIdentifierStrategy<T> strategy
 				= (GenerateIdentifierStrategy<T>)generateIdentifierStrategies.get(entity.getIdentifierClassType());
 		if (entity.getId() == null) {
 			entity = (V)strategy.generate(identifierGenerate.generate(), entity);
+			Thread.sleep((ThreadLocalRandom.current().nextInt(2) + 1) * 500L);    // 0.5 ~ 1초
 		}
 		entityMap.put((T)entity.getId(), entity);
 		return entity;

@@ -14,7 +14,7 @@ public abstract class IntegerEntity implements Entity<Integer> {
 	}
 
 	@Override
-	public void init(final Integer id) {
+	public void initIdentifier(final Integer id) {
 		if (id == null) {
 			throw new IllegalArgumentException("식별자는 NULL 값을 가질 수 없습니다.");
 		}

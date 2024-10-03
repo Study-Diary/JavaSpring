@@ -5,5 +5,5 @@ public interface Entity<T> {
 
 	T getId();
 
-	void init(T id);
+	void initIdentifier(T id);
 }

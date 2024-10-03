@@ -18,7 +18,7 @@ public class GenerateUUIDIdentifierStrategy implements GenerateIdentifierStrateg
 		if (e.getIdentifierClassType().equals(getIdType())) {
 			@SuppressWarnings("unchecked")
 			Entity<UUID> entity = (Entity<UUID>)e;
-			entity.init(id);
+			entity.initIdentifier(id);
 			return entity;
 		}
 		throw new IllegalArgumentException();
