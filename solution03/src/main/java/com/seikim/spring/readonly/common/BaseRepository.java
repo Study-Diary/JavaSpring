@@ -28,8 +28,8 @@ public abstract class BaseRepository<V extends Entity<?>, T> {
 	}
 
 	/**
-	 * SAVE 실행시간: 1 ~ 2초
-	 * UPDATE 실행시간: 0.5 ~ 1초
+	 * SAVE 실행시간: 0.1 ~ 0.2초
+	 * UPDATE 실행시간: 0.05 ~ 0.1초
 	 *
 	 * @param entity 저장 및 수정하는 엔티티
 	 * @return 데이터베이스에 저장된 최신 엔티티
@@ -37,31 +37,31 @@ public abstract class BaseRepository<V extends Entity<?>, T> {
 	@SuppressWarnings("unchecked")
 	@SneakyThrows
 	public V save(V entity) {
-		Thread.sleep((ThreadLocalRandom.current().nextInt(2) + 1) * 500L);    // 0.5 ~ 1초
+		Thread.sleep((ThreadLocalRandom.current().nextInt(2) + 1) * 50L);    // 0.05 ~ 0.1초
 		GenerateIdentifierStrategy<T> strategy
 				= (GenerateIdentifierStrategy<T>)generateIdentifierStrategies.get(entity.getIdentifierClassType());
 		if (entity.getId() == null) {
 			entity = (V)strategy.generate(identifierGenerate.generate(), entity);
-			Thread.sleep((ThreadLocalRandom.current().nextInt(2) + 1) * 500L);    // 0.5 ~ 1초
+			Thread.sleep((ThreadLocalRandom.current().nextInt(2) + 1) * 50L);    // 0.05 ~ 0.1초
 		}
 		entityMap.put((T)entity.getId(), entity);
 		return entity;
 	}
 
 	/**
-	 * 실행시간: 0.25 ~ 0.75초
+	 * 실행시간: 0.025 ~ 0.075초
 	 *
 	 * @param id 데이터 식별자
 	 * @return 데이터베이스에서 조회한 엔티티
 	 */
 	@SneakyThrows
 	public Optional<V> findById(final T id) {
-		Thread.sleep((ThreadLocalRandom.current().nextInt(3) + 1) * 1_250L);    // 0.25 ~ 0.75초
+		Thread.sleep((ThreadLocalRandom.current().nextInt(3) + 1) * 1_25L);    // 0.025 ~ 0.075초
 		return Optional.ofNullable(entityMap.get(id));
 	}
 
 	/**
-	 * 실행시간: 0.35 ~ 0.95초
+	 * 실행시간: 0.035 ~ 0.095초
 	 *
 	 * @param id 데이터 식별자
 	 * @return 데이터 삭제 유무
@@ -72,13 +72,13 @@ public abstract class BaseRepository<V extends Entity<?>, T> {
 		if (findOptionalEntity.isEmpty()) {
 			return false;
 		}
-		Thread.sleep((ThreadLocalRandom.current().nextInt(2) + 1) * 100L);    // 0.1 ~ 0.2초
+		Thread.sleep((ThreadLocalRandom.current().nextInt(2) + 1) * 10L);    // 0.01 ~ 0.02초
 		entityMap.remove(id);
 		return true;
 	}
 
 	/**
-	 * 실행시간: 0.25 ~ 0.75초
+	 * 실행시간: 0.025 ~ 0.075초
 	 *
 	 * @param id 데이터 식별자
 	 * @return 데이터 존재 유무
@@ -89,13 +89,13 @@ public abstract class BaseRepository<V extends Entity<?>, T> {
 	}
 
 	/**
-	 * 실행시간: 0.25 ~ 0.75초
+	 * 실행시간: 0.025 ~ 0.075초
 	 *
 	 * @return 데이터베이스에 저장된 모든 데이터
 	 */
 	@SneakyThrows
 	public List<V> findAll() {
-		Thread.sleep((ThreadLocalRandom.current().nextInt(3) + 1) * 250L);    // 0.25 ~ 0.75초
+		Thread.sleep((ThreadLocalRandom.current().nextInt(3) + 1) * 25L);    // 0.025 ~ 0.075초
 		return new ArrayList<>(entityMap.values());
 	}
 }
