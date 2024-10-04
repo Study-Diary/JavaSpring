@@ -14,6 +14,13 @@ public enum WithdrawTestFixture implements AccountTest {
 			new AccountTransaction(200_000L, AccountTransactionType.WITHDRAW),
 			new AccountTransaction(100_000L, AccountTransactionType.WITHDRAW),
 	}),
+	THREE(new AccountTransaction[] {
+			new AccountTransaction(200_000L, AccountTransactionType.WITHDRAW),
+			new AccountTransaction(100_000L, AccountTransactionType.WITHDRAW),
+			new AccountTransaction(0L, AccountTransactionType.BALANCE),
+			new AccountTransaction(100_000L, AccountTransactionType.WITHDRAW),
+			new AccountTransaction(100_000L, AccountTransactionType.WITHDRAW),
+	}),
 	;
 
 	private final AccountTransaction[] transactions;
