@@ -5,30 +5,29 @@ import java.util.List;
 
 public enum DiverseTransactionTestFixture implements AccountTest {
 	ONE(new AccountTransaction[] {
-			new AccountTransaction(1_000_000L, AccountTransactionType.DEPOSIT),
-			new AccountTransaction(500_000L, AccountTransactionType.WITHDRAW),
+			AccountTransaction.deposit(1_000_000L),
+			AccountTransaction.withdraw(500_000L)
 	}),
 	TWO(new AccountTransaction[] {
-			new AccountTransaction(500_000L, AccountTransactionType.DEPOSIT),
-			new AccountTransaction(1_000_000L, AccountTransactionType.WITHDRAW),
+			AccountTransaction.deposit(500_000L),
+			AccountTransaction.withdraw(1_000_000L)
 	}),
 	THREE(new AccountTransaction[] {
-			new AccountTransaction(0L, AccountTransactionType.BALANCE),
-			new AccountTransaction(500_000L, AccountTransactionType.DEPOSIT),
-			new AccountTransaction(1_000_000L, AccountTransactionType.WITHDRAW),
+			AccountTransaction.balance(),
+			AccountTransaction.deposit(500_000L),
+			AccountTransaction.withdraw(1_000_000L)
 	}),
 	FOUR(new AccountTransaction[] {
-			new AccountTransaction(500_000L, AccountTransactionType.DEPOSIT),
-			new AccountTransaction(1_000_000L, AccountTransactionType.WITHDRAW),
-			new AccountTransaction(0L, AccountTransactionType.BALANCE),
+			AccountTransaction.deposit(500_000L),
+			AccountTransaction.withdraw(1_000_000L),
+			AccountTransaction.balance()
 	}),
 	FIVE(new AccountTransaction[] {
-			new AccountTransaction(0L, AccountTransactionType.BALANCE),
-			new AccountTransaction(500_000L, AccountTransactionType.DEPOSIT),
-			new AccountTransaction(1_000_000L, AccountTransactionType.WITHDRAW),
-			new AccountTransaction(0L, AccountTransactionType.BALANCE),
-	}),
-	;
+			AccountTransaction.balance(),
+			AccountTransaction.deposit(500_000L),
+			AccountTransaction.withdraw(1_000_000L),
+			AccountTransaction.balance()
+	});
 
 	private final AccountTransaction[] transactions;
 

@@ -4,14 +4,13 @@ import java.util.List;
 
 public enum DepositTestFixture implements AccountTest {
 	ONE(new AccountTransaction[] {
-			new AccountTransaction(100_000L, AccountTransactionType.DEPOSIT),
-			new AccountTransaction(200_000L, AccountTransactionType.DEPOSIT),
+			AccountTransaction.deposit(100_000L),
+			AccountTransaction.deposit(200_000L),
 	}),
 	TWO(new AccountTransaction[] {
-			new AccountTransaction(100_000_000L, AccountTransactionType.DEPOSIT),
-			new AccountTransaction(1_000_000_000L, AccountTransactionType.DEPOSIT),
-	}),
-	;
+			AccountTransaction.deposit(100_000_000L),
+			AccountTransaction.deposit(1_000_000_000L),
+	});
 
 	private final AccountTransaction[] transactions;
 

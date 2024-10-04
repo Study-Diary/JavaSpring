@@ -5,23 +5,22 @@ import java.util.List;
 
 public enum BalanceTestFixture implements AccountTest {
 	ONE(new AccountTransaction[] {
-			new AccountTransaction(100_000L, AccountTransactionType.DEPOSIT),
-			new AccountTransaction(0L, AccountTransactionType.BALANCE),
-			new AccountTransaction(200_000L, AccountTransactionType.WITHDRAW),
-			new AccountTransaction(0L, AccountTransactionType.BALANCE),
-			new AccountTransaction(0L, AccountTransactionType.BALANCE),
+			AccountTransaction.deposit(100_000L),
+			AccountTransaction.balance(),
+			AccountTransaction.withdraw(200_000L),
+			AccountTransaction.balance(),
+			AccountTransaction.balance(),
 	}),
 	TWO(new AccountTransaction[] {
-			new AccountTransaction(100_000L, AccountTransactionType.WITHDRAW),
-			new AccountTransaction(0L, AccountTransactionType.BALANCE),
-			new AccountTransaction(200_000L, AccountTransactionType.DEPOSIT),
-			new AccountTransaction(200_000L, AccountTransactionType.WITHDRAW),
-			new AccountTransaction(0L, AccountTransactionType.BALANCE),
-			new AccountTransaction(0L, AccountTransactionType.BALANCE),
-			new AccountTransaction(200_000L, AccountTransactionType.WITHDRAW),
-			new AccountTransaction(0L, AccountTransactionType.BALANCE),
-	}),
-	;
+			AccountTransaction.withdraw(100_000L),
+			AccountTransaction.balance(),
+			AccountTransaction.deposit(200_000L),
+			AccountTransaction.withdraw(200_000L),
+			AccountTransaction.balance(),
+			AccountTransaction.balance(),
+			AccountTransaction.withdraw(200_000L),
+			AccountTransaction.balance(),
+	});
 
 	private final AccountTransaction[] transactions;
 
